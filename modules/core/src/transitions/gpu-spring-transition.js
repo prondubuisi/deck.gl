@@ -112,8 +112,7 @@ export default class GPUSpringTransition {
       discard: false,
       uniforms: {
         stiffness: this.transitionSettings.stiffness,
-        damping: this.transitionSettings.damping,
-        threshold: 0.01
+        damping: this.transitionSettings.damping
       },
       parameters: {
         depthTest: false,
@@ -156,7 +155,8 @@ function getTransform(gl, attribute, framebuffer) {
     vs: `
 #define SHADER_NAME spring-transition-vertex-shader
 
-uniform float threshold;
+#define EPSILON 0.00001
+
 uniform float stiffness;
 uniform float damping;
 attribute ATTRIBUTE_TYPE aPrev;
@@ -174,7 +174,7 @@ ATTRIBUTE_TYPE getNextValue(ATTRIBUTE_TYPE cur, ATTRIBUTE_TYPE prev, ATTRIBUTE_T
 }
 
 void main(void) {
-  bool isTransitioning = length(aCur - aPrev) > threshold || length(aTo - aCur) > threshold;
+  bool isTransitioning = length(aCur - aPrev) > EPSILON || length(aTo - aCur) > EPSILON;
   vIsTransitioningFlag = isTransitioning ? 1.0 : 0.0;
 
   vNext = getNextValue(aCur, aPrev, aTo);
