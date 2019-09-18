@@ -1,14 +1,24 @@
 import BaseAttribute from '../lib/base-attribute';
 import {padArray} from '../utils/array-utils';
 
+function noop() {}
+
 const DEFAULT_TRANSITION_SETTINGS = {
   interpolation: {
     duration: 0,
-    easing: t => t
+    easing: t => t,
+    onStart: noop,
+    onEnd: noop,
+    onUpdate: noop,
+    onInterrupt: noop
   },
   spring: {
     stiffness: 0.05,
-    damping: 0.5
+    damping: 0.5,
+    onStart: noop,
+    onEnd: noop,
+    onUpdate: noop,
+    onInterrupt: noop
   }
 };
 
