@@ -110,14 +110,17 @@ export default class GPUSpringTransition {
     this.transform.run({
       framebuffer: this.framebuffer,
       discard: false,
+      clearRenderTarget: true,
       uniforms: {
         stiffness: this.transitionSettings.stiffness,
         damping: this.transitionSettings.damping
       },
       parameters: {
         depthTest: false,
-        blend: false,
-        viewport: [0, 0, 1, 1]
+        blend: true,
+        viewport: [0, 0, 1, 1],
+        blendFunc: [GL.ONE, GL.ONE],
+        blendEquation: [GL.MAX, GL.MAX]
       }
     });
 
